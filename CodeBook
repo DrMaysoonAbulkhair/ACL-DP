@@ -1,0 +1,15 @@
+Variable	Definition	Type
+Sector_Group	Heuristic domain-based sector classification	categorical
+MECH_EE_ClickAsymmetry	Reject path requires more clicks than accept path	binary
+MECH_EE_HiddenReject	Reject option hidden behind deeper pathway	binary
+MECH_AE_PrimaryAccept	Primary action is accept	binary
+MECH_AE_ProminenceAsymmetry	Accept more prominent than reject	binary
+MECH_CL_HighComplexity	High complexity based on CL index median split	binary
+MECH_CL_HighInfoDensity	High information density based on median split	binary
+MECH_CL_GermaneSuppression	Suppressed explanatory support	binary
+MECH_AA_RePrompting	Re-prompting after reject observed	binary
+EFFORT_SCORE	MECH_EE_ClickAsymmetry + MECH_EE_HiddenReject	0-2
+ATTENTION_SCORE	MECH_AE_PrimaryAccept + MECH_AE_ProminenceAsymmetry	0-2
+COGNITIVE_LOAD_SCORE	Complexity + info density + germane suppression	0-3
+ADAPTIVITY_SCORE	MECH_AA_RePrompting	0-1
+ACLDP_TOTAL_SCORE	Sum of all mechanism families	0-8 theoretically
