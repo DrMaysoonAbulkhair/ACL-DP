@@ -1,0 +1,38 @@
+ACL-DP Dataset Anonymization Report
+======================================
+
+Source file: cookie_consent_dataset_1000_audited.numbers
+Output file: acldp_dataset_anonymized.csv
+
+Rows retained: 1000
+Columns retained: 52
+Schema retained: Yes
+Analytical values retained: Yes
+
+Pseudonymized fields:
+- Website_ID -> ACLDP_0001 ... ACLDP_1000
+- Domain -> site-0001.invalid ... site-1000.invalid
+- URL_Accessed -> corresponding reserved .invalid URL
+- SP_Message_ID -> stable pseudonymous identifier
+- SP_Campaign_ID -> stable pseudonymous identifier
+- Embedded domains, URLs, and Website_ID values in textual evidence/reference fields
+
+Retained fields:
+- Audit status and errors
+- Collection metadata and dates
+- Browser and locale configuration
+- Banner, CMP, TCF, L1, L2, EE, AE, CL, and AA variables
+- Counts, scores, evidence quotes, and reference structures
+
+Verification:
+- Original rows preserved: 1000/1000
+- Original columns preserved: 52/52
+- Unique anonymized site identifiers: 1000
+- Residual original domains detected: 0
+- Residual original Website_ID values detected: 0
+
+Important:
+The anonymization key linking original sites to pseudonyms is intentionally not
+included in the public output. Review evidence quotations manually before public
+release if they may contain third-party names, trademarks, personal data, or
+copyrighted text beyond what is necessary for research reproducibility.
