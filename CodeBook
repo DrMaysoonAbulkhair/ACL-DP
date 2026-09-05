@@ -1,15 +1,90 @@
-Variable	Definition	Type
-Sector_Group	Heuristic domain-based sector classification	categorical
-MECH_EE_ClickAsymmetry	Reject path requires more clicks than accept path	binary
-MECH_EE_HiddenReject	Reject option hidden behind deeper pathway	binary
-MECH_AE_PrimaryAccept	Primary action is accept	binary
-MECH_AE_ProminenceAsymmetry	Accept more prominent than reject	binary
-MECH_CL_HighComplexity	High complexity based on CL index median split	binary
-MECH_CL_HighInfoDensity	High information density based on median split	binary
-MECH_CL_GermaneSuppression	Suppressed explanatory support	binary
-MECH_AA_RePrompting	Re-prompting after reject observed	binary
-EFFORT_SCORE	MECH_EE_ClickAsymmetry + MECH_EE_HiddenReject	0-2
-ATTENTION_SCORE	MECH_AE_PrimaryAccept + MECH_AE_ProminenceAsymmetry	0-2
-COGNITIVE_LOAD_SCORE	Complexity + info density + germane suppression	0-3
-ADAPTIVITY_SCORE	MECH_AA_RePrompting	0-1
-ACLDP_TOTAL_SCORE	Sum of all mechanism families	0-8 theoretically
+ACL-DP Operational Codebook
+=============================
+
+Final scoring definition aligned with the revised manuscript and executable analysis code.
+
+IMPORTANT SCORING NOTE
+----------------------
+The final ACL-DP composite score contains three scored mechanism families only:
+1. Effort Engineering (EE)
+2. Attention Engineering (AE)
+3. Cognitive Load (CL) Amplification
+
+Adaptive Architecture/Adaptive Behavior (AA), when available in the dataset, is retained as a supplementary descriptive variable and is NOT included in the final ACL-DP composite score.
+
+Accordingly:
+
+ACLDP_TOTAL_SCORE = EFFORT_SCORE + ATTENTION_SCORE + COGNITIVE_LOAD_SCORE
+
+The theoretical range of ACLDP_TOTAL_SCORE is 0-7.
+
+Variable	Definition	Type / Range	Operational rule / scope
+Sector_Group	Heuristic domain-based sector classification	categorical	Descriptive grouping variable; not part of ACL-DP scoring.
+EFFORT_VALID	Interface has observable accept and reject click counts	binary	1 when both Accept_Click_Count and Reject_Click_Count are observable; EE analyses requiring a rejection pathway are restricted to EFFORT_VALID = 1.
+MECH_EE_ClickAsymmetry	Reject path requires more clicks than accept path	binary	1 if EFFORT_VALID = 1 and Reject_Click_Count > Accept_Click_Count; otherwise 0.
+MECH_EE_HiddenReject	Reject option is located behind a deeper interaction pathway	binary	1 when the operational audit variable indicates a hidden/deeper reject pathway; otherwise 0.
+MECH_AE_PrimaryAccept	Primary action is acceptance	binary	1 when the primary consent action is coded as accept; otherwise 0.
+MECH_AE_ProminenceAsymmetry	Accept control is more visually prominent than reject control	binary	1 when Accept_Button_Prominence > Reject_Button_Prominence and both values are observable; otherwise 0.
+MECH_CL_HighComplexity	High Layer-2 configuration complexity	binary	Evaluated only for interfaces with an accessible Layer-2 panel; 1 when CL_Toggle_Vendor_Complexity_Index >= 20; otherwise 0.
+MECH_CL_HighInfoDensity	High Layer-2 information density	binary	Evaluated only for interfaces with an accessible Layer-2 panel; 1 when L2_Information_Density_Score >= 4; otherwise 0.
+MECH_CL_HighToggleVolume	High Layer-2 toggle volume	supplementary binary	Evaluated only for interfaces with an accessible Layer-2 panel; 1 when L2_Toggle_Count >= 10; otherwise 0. This indicator is retained for descriptive/sensitivity purposes and is NOT included in the final COGNITIVE_LOAD_SCORE.
+MECH_CL_GermaneSuppression	Suppressed explanatory support within Layer-2 configuration	binary	Evaluated only for interfaces with an accessible Layer-2 panel; 1 when germane-support suppression is coded as present; otherwise 0.
+MECH_AA_RePrompting	Re-prompting after rejection is observed	supplementary binary	Retained as a descriptive adaptive-behavior variable when available. It is NOT included in the final ACL-DP mechanism scores or ACLDP_TOTAL_SCORE.
+
+FINAL MECHANISM SCORES
+----------------------
+EFFORT_SCORE
+Definition:
+    MECH_EE_ClickAsymmetry + MECH_EE_HiddenReject
+Range:
+    0-2
+Interpretation:
+    Higher values indicate a greater number of observable effort-asymmetry indicators.
+Analytical scope:
+    EE prevalence and mechanism-specific analyses requiring an observable rejection pathway should use the EFFORT_VALID subset.
+
+ATTENTION_SCORE
+Definition:
+    MECH_AE_PrimaryAccept + MECH_AE_ProminenceAsymmetry
+Range:
+    0-2
+Interpretation:
+    Higher values indicate a greater number of observable attention-engineering indicators.
+
+COGNITIVE_LOAD_SCORE
+Definition:
+    MECH_CL_HighComplexity
+    + MECH_CL_HighInfoDensity
+    + MECH_CL_GermaneSuppression
+Range:
+    0-3
+Interpretation:
+    Higher values indicate a greater number of observable Layer-2 interface conditions used as proxies for cognitive-load amplification.
+Analytical scope:
+    CL indicators are evaluated only within interfaces with an accessible Layer-2 panel.
+Construct-validity note:
+    These indicators are interface-level proxies. They characterize observable complexity, information density, and explanatory-support conditions; they do not directly measure users' experienced cognitive workload.
+
+ACLDP_TOTAL_SCORE
+Definition:
+    EFFORT_SCORE + ATTENTION_SCORE + COGNITIVE_LOAD_SCORE
+Range:
+    0-7
+Interpretation:
+    Additive composite summarizing the scored EE, AE, and CL interface-level indicators.
+Important:
+    The total score is mathematically constructed from its component mechanism scores. Correlations between component scores and ACLDP_TOTAL_SCORE are therefore part-whole associations and should not be interpreted as independent construct-validation evidence.
+
+FINAL EXCLUSIONS FROM THE COMPOSITE SCORE
+-----------------------------------------
+- MECH_CL_HighToggleVolume is not included in COGNITIVE_LOAD_SCORE.
+- MECH_AA_RePrompting / Adaptive Architecture is not included in ACLDP_TOTAL_SCORE.
+- No ADAPTIVITY_SCORE is included in the final composite scoring definition.
+
+MECHANISM-SPECIFIC DENOMINATORS
+-------------------------------
+- Interface-level and AE analyses: observable consent-interface sample.
+- EE analyses requiring an observable rejection pathway: EFFORT_VALID subset.
+- CL analyses: accessible Layer-2 subset.
+
+These scope restrictions should be preserved when reporting sample-specific percentages and should not be interpreted as population-level prevalence estimates.
